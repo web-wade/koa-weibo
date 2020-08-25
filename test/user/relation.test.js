@@ -1,6 +1,5 @@
 /**
  * @description 用户关系 单元测试
- * @author 双越老师
  */
 
 const server = require('../server')

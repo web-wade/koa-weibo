@@ -1,6 +1,5 @@
 /**
  * @description user api test
- * @author 双越老师
  */
 
 const server = require('../server')
