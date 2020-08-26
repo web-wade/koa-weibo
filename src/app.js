@@ -9,17 +9,25 @@ const logger = require('koa-logger')
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 const koaStatic = require('koa-static')
+const { isProd } = require('./utils/env')
 const combineRoutes = require('koa-combine-routers')
 
 const index = require('./routes/index')
 const userViewRouter = require('./routes/view/user')
+const errorViewRouter = require('./routes/view/error')
 const userApiRouter = require('./routes/api/user')
 const utilsAPIRouter = require('./routes/api/utils')
 
 const { REDIS_CONF } = require('./conf/db')
 
 // error handler
-onerror(app)
+let onerrorConf = {}
+if (isProd) {
+    onerrorConf = {
+        redirect: '/error'
+    }
+}
+onerror(app, onerrorConf)
 
 // middlewares
 app.use(
@@ -49,7 +57,11 @@ app.use(
             maxAge: 24 * 60 * 1000,
         },
         // ttl: 24 * 60 * 1000,
-        store: redisStore({ all: `${REDIS_CONF.host}:${REDIS_CONF.port}` }),
+        store: redisStore({
+            host: REDIS_CONF.host,
+            port: REDIS_CONF.port,
+            password: REDIS_CONF.password,
+        }),
     })
 )
 // logger
@@ -65,7 +77,8 @@ const routers = combineRoutes(
     userViewRouter,
     utilsAPIRouter,
     userApiRouter,
-    index
+    index,
+    errorViewRouter,
 )
 app.use(routers())
 // app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods());

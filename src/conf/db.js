@@ -3,8 +3,9 @@
  */
 
 let REDIS_CONF = {
-    host: '127.0.0.1',
-    port: 6379,
+    host: '81.70.51.246',
+    port: 15001,
+    password: '123456'
 }
 
 module.exports = {
