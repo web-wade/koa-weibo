@@ -74,10 +74,10 @@ app.use(
 
 // routes
 const routers = combineRoutes(
+    index,
     userViewRouter,
     utilsAPIRouter,
     userApiRouter,
-    index,
     errorViewRouter,
 )
 app.use(routers())
