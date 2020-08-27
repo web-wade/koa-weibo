@@ -12,11 +12,13 @@ const koaStatic = require('koa-static')
 const { isProd } = require('./utils/env')
 const combineRoutes = require('koa-combine-routers')
 
-const index = require('./routes/index')
 const userViewRouter = require('./routes/view/user')
 const errorViewRouter = require('./routes/view/error')
 const userApiRouter = require('./routes/api/user')
+const homeAPIRouter = require('./routes/api/blog-home')
+
 const utilsAPIRouter = require('./routes/api/utils')
+const blogViewRouter = require('./routes/view/blog')
 
 const { REDIS_CONF } = require('./conf/db')
 
@@ -74,10 +76,11 @@ app.use(
 
 // routes
 const routers = combineRoutes(
-    index,
     userViewRouter,
+    homeAPIRouter,
     utilsAPIRouter,
     userApiRouter,
+    blogViewRouter,
     errorViewRouter,
 )
 app.use(routers())
