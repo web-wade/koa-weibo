@@ -1,6 +1,6 @@
 /**
  * @description 封装 sequelize 数据类型
- * 
+
  */
 
 const Sequelize = require('sequelize')

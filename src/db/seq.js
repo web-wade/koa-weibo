@@ -1,15 +1,31 @@
+/**
+ * @description sequelize 实例
+
+ */
+
 const Sequelize = require('sequelize')
+const { MYSQL_CONF } = require('../conf/db')
+const { isProd, isTest } = require('../utils/env')
 
+const { host, user, password, database } = MYSQL_CONF
+const conf = {
+    host,
+    dialect: 'mysql'
+}
 
-const seq = new Sequelize('koa2_weibo_db','root','123456',{
-    host:'81.70.51.246',
-    dialect:'mysql'
+if (isTest) {
+    conf.logging = () => {}
+}
 
-})
+// 线上环境，使用连接池
+if (isProd) {
+    conf.pool = {
+        max: 5, // 连接池中最大的连接数量
+        min: 0, // 最小
+        idle: 10000  // 如果一个连接池 10 s 之内没有被使用，则释放
+    }
+}
 
-module.exports = seq 
+const seq = new Sequelize(database, user, password, conf)
 
-
-// seq.authenticate().then(()=>{
-//     console.log('ok')
-// })
+module.exports = seq

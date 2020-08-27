@@ -1,5 +1,6 @@
 /**
  * @description sequelize 同步数据库
+
  */
 
 const seq = require('./seq')

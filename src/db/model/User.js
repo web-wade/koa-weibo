@@ -1,3 +1,7 @@
+/**
+ * @description 用户数据模型
+ */
+
 const seq = require('../seq')
 const { STRING, DECIMAL } = require('../types')
 
